@@ -16,12 +16,11 @@ public class PlayerCtrl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //스크립트의 처음에 Transform 컴포넌트를 할당
+        //스크립트가 실해된 후에 처음 수행되는 Start 함수에서 transform 컴포넌트 할당
         tr = GetComponent<Transform>();
-        
     }
 
-    // Update is called once per frame
+    // Update is called once per frame  
     void Update()
     {
         //h에 가로의 데이터, v에 새로의 데이터 삽입
@@ -32,7 +31,22 @@ public class PlayerCtrl : MonoBehaviour
         Debug.Log("H = " + h.ToString());
         Debug.Log("V = " + v.ToString());
 
-        //Translate(이동방향 * 속도 * 변위값 * TIme.DeltaTIme, 기준좌표)
+        //전후좌우 이동 방향 벡터 계산
+        Vector3 moveDir = (Vector3.forward * v) + (Vector3.right * h);
+
+        //이동 방향은 대각선일 경우 sqrt(2)가 되므로 정규화(normalized) 필요
+        //Translate(이동방향.normalized * TIme.deltaTime * 변위값 * 속도, 기준좌표)
+        tr.Translate(moveDir.normalized * Time.deltaTime * moveSpeed, Space.Self);
+
+        /*
+        //Translate(이동방향 * 속도 * 변위값(전진,후진변수) * TIme.DeltaTIme, 기준좌표)
         tr.Translate(Vector3.forward * moveSpeed * v * Time.deltaTime, Space.Self);
+        
+        // 매 프레임마다 10유닛만큼 이동
+        //transform.Translate(Vector3.forward * 10);
+        
+        // 매 초마다 10유닛만큼 이동
+        //transform.Translate(Vector3.forward * Time.deltaTime * 10);
+        */
     }
 }
