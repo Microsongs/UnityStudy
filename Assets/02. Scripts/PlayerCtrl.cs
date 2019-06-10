@@ -13,6 +13,9 @@ public class PlayerCtrl : MonoBehaviour
     //이동 속도 변수
     public float moveSpeed = 10.0f;
 
+    //회전 속도 변수
+    public float rotSpeed = 100.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +40,9 @@ public class PlayerCtrl : MonoBehaviour
         //이동 방향은 대각선일 경우 sqrt(2)가 되므로 정규화(normalized) 필요
         //Translate(이동방향.normalized * TIme.deltaTime * 변위값 * 속도, 기준좌표)
         tr.Translate(moveDir.normalized * Time.deltaTime * moveSpeed, Space.Self);
+
+        //Vector3.up축을 기준으로 rotSpeed만큼의 속도로 회전
+        tr.Rotate(Vector3.up * Time.deltaTime * rotSpeed * Input.GetAxis("Mouse X"));
 
         /*
         //Translate(이동방향 * 속도 * 변위값(전진,후진변수) * TIme.DeltaTIme, 기준좌표)
