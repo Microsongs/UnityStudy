@@ -2,6 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// 클래스에 System.Serializable이라는 속성(Attribute)를 명시해야
+// Inspector뷰에 노출된다.
+[System.Serializable]
+public class Anim
+{
+    public AnimationClip idle;
+    public AnimationClip runForward;
+    public AnimationClip runBackward;
+    public AnimationClip runRight;
+    public AnimationClip runLeft;
+}
+
 public class PlayerCtrl : MonoBehaviour
 {
     //h는 가로(Horizontal) v는 세로(Vertical)을 가리킴
@@ -16,11 +28,24 @@ public class PlayerCtrl : MonoBehaviour
     //회전 속도 변수
     public float rotSpeed = 100.0f;
 
+    //인스펙터뷰에 표시할 애니메이션 클래스 변수
+    public Anim anim;
+
+    //아래에 있는 3D 모델의 Animation 컴포넌트에 접근하기 위한 변수
+    public Animation _animation;
+
     // Start is called before the first frame update
     void Start()
     {
         //스크립트가 실해된 후에 처음 수행되는 Start 함수에서 transform 컴포넌트 할당
         tr = GetComponent<Transform>();
+
+        //자신의 하위에 있는 Animation 컴포넌트를 찾아와 변수에 할당
+        _animation = GetComponentInChildren<Animation>();
+
+        //Animation 컴포넌트의 애니메이션 클립을 저장하고 실행
+        _animation.clip = anim.idle;
+        _animation.Play();
     }
 
     // Update is called once per frame  
