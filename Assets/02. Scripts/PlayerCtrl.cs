@@ -69,6 +69,34 @@ public class PlayerCtrl : MonoBehaviour
         //Vector3.up축을 기준으로 rotSpeed만큼의 속도로 회전
         tr.Rotate(Vector3.up * Time.deltaTime * rotSpeed * Input.GetAxis("Mouse X"));
 
+
+        //키보드의 입력 값을 기준으로 동작할 애니메이션 수행
+        if (v >= 0.1f)
+        {
+            //전진 애니메이션
+            _animation.CrossFade(anim.runForward.name, 0.3f);
+        }
+        else if (v <= -0.1f)
+        {
+            //후진 애니메이션
+            _animation.CrossFade(anim.runBackward.name, 0.3f);
+        }
+        else if(h >= 0.1f)
+        {
+            //오른쪽 이동 애니메이션
+            _animation.CrossFade(anim.runRight.name, 0.3f);
+        }
+        else if(h <= -0.1f)
+        {
+            //왼쪽 이동 애니메이션
+            _animation.CrossFade(anim.runLeft.name, 0.3f);
+        }
+        else
+        {
+            //정지시 idle 애니메이션
+            _animation.CrossFade(anim.idle.name, 0.3f);
+        }
+
         /*
         //Translate(이동방향 * 속도 * 변위값(전진,후진변수) * TIme.DeltaTIme, 기준좌표)
         tr.Translate(Vector3.forward * moveSpeed * v * Time.deltaTime, Space.Self);
